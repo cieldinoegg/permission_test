@@ -4,6 +4,14 @@
 <dict>
     <key>NSCameraUsageDescription</key> // 카메라
     <string>camera</string> // 권한
+    <key>NSLocationWhenInUseUsageDescription</key> // 위치
+    <string>LocationWhenInUse</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>LocationAlways</string> // 권한
+    <key>NSPhotoLibraryAddUsageDescription</key> // 저장소
+    <string>PhotoLibraryAdd</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>PhotoLibrary</string> // 권한
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
