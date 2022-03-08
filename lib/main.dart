@@ -2,28 +2,58 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:permission_handler/permission_handler.dart'; // 권한
+import 'package:webview_flutter/webview_flutter.dart'; // 웹뷰
+import 'package:app_settings/app_settings.dart'; // ios 설정
+import 'notification.dart'; // 알림
 
 void main() {
   runApp(MyApp());
 }
 
-Future<bool> callPermissions() async {
-  Map<Permission, PermissionStatus> statuses = await [
-    Permission.camera,
-    Permission.locationAlways,
-    Permission.storage,
-  ].request();
-
-  if (statuses.values.every((element) => element.isGranted)) {
-    return true;
+getPermission() async {
+  var status = await Permission.contacts.status;
+  if (status.isGranted) {
+    print('허락됨');
   }
-
-  return false;
+  else if (status.isDenied) {
+    print('거절됨');
+    if (Platform.isIOS) {
+      return Row(
+        children: const <Widget>[
+          ElevatedButton(
+            onPressed: AppSettings.openLocationSettings,
+            child: Text('Open Location Settings'),
+          ),
+        ],
+      ); // 허락해달라고 팝업띄우는 코드
+    }
+    else {
+      [
+        Permission.camera,
+        Permission.locationAlways,
+        Permission.storage,
+        Permission.location
+      ].request();
+    }
+  }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    getPermission();
+    initNotification();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,21 +63,12 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: Center(
-          child: FutureBuilder(
-            future: callPermissions(),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              if (snapshot.data) {
-                 return WebViewExample();
-              }
-              return CircularProgressIndicator();
-            },
-          ),
+            child: WebViewExample()
         ),
       ),
     );
   }
 }
-
 
 class WebViewExample extends StatefulWidget {
   @override
