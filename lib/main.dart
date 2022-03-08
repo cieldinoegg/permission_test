@@ -13,11 +13,7 @@ void main() {
 
 getPermission() async {
   var status = await Permission.contacts.status;
-  if (status.isGranted) {
-    print('허락됨');
-  }
-  else if (status.isDenied) {
-    print('거절됨');
+  if (status.isDenied) {
     if (Platform.isIOS) {
       return Row(
         children: const <Widget>[
@@ -27,8 +23,7 @@ getPermission() async {
           ),
         ],
       ); // 허락해달라고 팝업띄우는 코드
-    }
-    else {
+    } else {
       [
         Permission.camera,
         Permission.locationAlways,
@@ -58,13 +53,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '권한을 주세요',
-      theme: ThemeData(
-        primarySwatch: Colors.amber,
-      ),
       home: Scaffold(
-        body: Center(
-            child: WebViewExample()
-        ),
+        body: Center(child: WebViewExample()),
       ),
     );
   }
@@ -82,7 +72,9 @@ class WebViewExampleState extends State<WebViewExample> {
   void initState() {
     super.initState();
     // Enable hybrid composition.
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    if (Platform.isAndroid) {
+      WebView.platform = SurfaceAndroidWebView();
+    }
   }
 
   @override

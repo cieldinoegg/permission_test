@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'; // 알림 설정
-// import 'package:permission_handler/permission_handler.dart'; // 권한
-// import 'package:app_settings/app_settings.dart'; // ios 설정
+import 'package:permission_handler/permission_handler.dart'; // 권한
+import 'package:app_settings/app_settings.dart'; // ios 설정
 
 final notifications = FlutterLocalNotificationsPlugin();
 
@@ -24,5 +25,32 @@ initNotification() async {
     initializationSettings,
     //알림 누를때 함수실행하고 싶으면
     //onSelectNotification: 함수명추가
+  );
+}
+
+
+showNotification() async {
+
+  var androidDetails = AndroidNotificationDetails(
+    '서민준',
+    '배고픔',
+    priority: Priority.high,
+    importance: Importance.max,
+    color: Color.fromARGB(255, 255, 0, 0),
+  );
+
+  var iosDetails = IOSNotificationDetails(
+    presentAlert: true,
+    presentBadge: true,
+    presentSound: true,
+  );
+
+  // 알림 id, 제목, 내용 맘대로 채우기
+  notifications.show(
+      1,
+      '지금 어떤 생각이 드냐면요..',
+      '배고픔',
+      NotificationDetails(android: androidDetails, iOS: iosDetails),
+      payload:'배민 시켜둠' // 부가정보
   );
 }
