@@ -45,14 +45,14 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    getPermission();
     initNotification();
+    getPermission();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '권한을 주세요',
+      title: 'MY APP',
       home: Scaffold(
         body: Center(child: WebViewExample()),
       ),
@@ -83,7 +83,7 @@ class WebViewExampleState extends State<WebViewExample> {
       onWillPop: () => _goBack(context),
       child: Scaffold(
         body: WebView(
-          initialUrl: 'https://blog.naver.com/cieldinoegg',
+          initialUrl: 'https://blog.naver.com/cieldinoegg/222665748408',
           javascriptMode: JavascriptMode.unrestricted,
         ),
       ),
